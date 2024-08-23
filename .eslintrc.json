@@ -51,6 +51,15 @@
             "error",
             "never"
         ],
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": false,
+                "optionalDependencies": false,
+                "peerDependencies": false,
+                "packageDir": "./"
+            }
+        ],
         "react/react-in-jsx-scope": "off",
         "react/prop-types": 0,
         "react/jsx-props-no-spreading": 0,
