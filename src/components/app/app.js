@@ -1,5 +1,8 @@
-import { Flex, Layout } from 'antd'
-import { Footer, Header, Content } from 'antd/es/layout/layout'
+import  { Flex, Layout } from 'antd'
+import { Footer } from 'antd/es/layout/layout'
+
+import HeaderMovie from '../header-movie/header-movie'
+import MovieContent from '../movie-content'
 
 export default function pup() {
   return (
@@ -7,13 +10,8 @@ export default function pup() {
       <Flex justify="center">
         <Layout style={{ 'max-width': '1110px', backgroundColor: 'white', height: '100vh' }}>
           <Flex vertical style={{ height: '100%' }}>
-            <Header />
-            <Content style={{ height: '277px' }}>
-              <div>ppppp</div>
-              <div>ppppp</div>
-              <div>ppppp</div>
-              <div>ppppp</div>
-            </Content>
+            <HeaderMovie />
+            <MovieContent/>
             <Footer style={{ 'margin-top': 'auto' }} />
           </Flex>
         </Layout>
