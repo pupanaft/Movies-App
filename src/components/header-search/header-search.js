@@ -1,9 +1,9 @@
 import { Input } from 'antd'
 
-export default function HeaderSearch() {
+export default function HeaderSearch({serchMovie, setSerchMovie}) {
   return (
    
-    <Input placeholder="Type to search..." />
+    <Input value={serchMovie} onChange={(e)=>setSerchMovie(e.target.value)} placeholder="Type to search..." />
     
   )
 }

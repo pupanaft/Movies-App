@@ -18,7 +18,7 @@ const getStaticResource = async () => {
     overview: item.overview,
     voteAverage: item.vote_average,
     releaseDate: item.release_date,
-    id: item.id,
+    key: item.id,
     rate:0
   }))
   return movieInfo

@@ -7,7 +7,7 @@ import {Genre, StarsName }from '../../utils/constants'
 
 const { Title, Text, Paragraph } = Typography
 
-export default function MovieItem({ rate, data }) {
+export default function MovieItem({ key, rateChange, data }) {
   const tag = []
   data.genreIds.map((tagid) =>
     tag.push(
@@ -38,7 +38,7 @@ export default function MovieItem({ rate, data }) {
   }
 
   return (
-    <ConfigProvider
+    <ConfigProvider  key={key}
       theme={{
         components: {
           Typography: {
@@ -74,7 +74,7 @@ export default function MovieItem({ rate, data }) {
               <Paragraph style={{ fontSize: '13px', 'margin-bottom':0,}} ellipsis={{ rows: 5 }}>
                 {data.overview}
               </Paragraph>
-              <Rate tooltips={StarsName} allowHalf count={10} style={{fontSize:'15px'} } onChange={(e)=>rate(e, data.id)} value={data.rate}/>
+              <Rate tooltips={StarsName} allowHalf count={10} style={{fontSize:'15px'} } onChange={(e) => rateChange(e, data.key)} value={data.rate}/>
               <div className='round'><span className={`round__text ${rateRound}`}>{data.voteAverage.toFixed(1)}</span></div>
             </Space>
           </Layout>
