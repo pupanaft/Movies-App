@@ -1,12 +1,9 @@
-import { Content } from 'antd/es/layout/layout'
+import { Input } from 'antd'
 
-export default function HeaderSearch(){
-  return(
-    <Content style={{ height: '277px' }}>
-      <div>ppppp</div>
-      <div>ppppp</div>
-      <div>ppppp</div>
-      <div>ppppp</div>
-    </Content>
+export default function HeaderSearch() {
+  return (
+   
+    <Input placeholder="Type to search..." />
+    
   )
 }
