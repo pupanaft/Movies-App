@@ -1,10 +1,13 @@
 const getDinamicResource = async (serchMovie, page) => {
-  const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${serchMovie}&api_key=ff099c6242e0f9cfca661a30513269f5&page=${page}`, {
-  })
+  const res = await fetch(
+    `https://api.themoviedb.org/3/search/movie?query=${serchMovie}&api_key=ff099c6242e0f9cfca661a30513269f5&page=${page}`,
+    {}
+  )
   if (!res.ok) {
     throw new Error(`что то не то лооол ${res.status}`)
   }
   const body = await res.json()
+  const totalPage = body.total_pages
   const movieInfo = body.results.map((item) => ({
     title: item.title,
     genreIds: item.genre_ids,
@@ -13,9 +16,8 @@ const getDinamicResource = async (serchMovie, page) => {
     voteAverage: item.vote_average,
     releaseDate: item.release_date,
     key: item.id,
-    rate:0
+    rate: 0,
   }))
-  return movieInfo
+  return { movieInfo, totalPage }
 }
 export default getDinamicResource
-  

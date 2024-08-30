@@ -3,7 +3,7 @@ import { ConfigProvider } from 'antd'
 
 import HeaderSearch from '../header-search/header-search'
 
-export default function HeaderMovie({serchMovie,setSerchMovie}) {
+export default function HeaderMovie({ serchMovie, setSerchMovie }) {
   return (
     <ConfigProvider
       theme={{
@@ -16,7 +16,7 @@ export default function HeaderMovie({serchMovie,setSerchMovie}) {
       }}
     >
       <Header>
-        <HeaderSearch serchMovie={serchMovie} setSerchMovie={setSerchMovie}/>
+        <HeaderSearch serchMovie={serchMovie} setSerchMovie={setSerchMovie} />
       </Header>
     </ConfigProvider>
   )

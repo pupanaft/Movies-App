@@ -1,0 +1,9 @@
+.wrapper {
+    max-width: 1010px;
+    background-Color: white;
+    padding: 0 36px;
+}
+
+.wrapper--height {
+    height: 100vh
+}

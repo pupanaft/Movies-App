@@ -1,69 +1,120 @@
-import { Flex, Layout } from 'antd'
+import { Flex, Layout, Tabs } from 'antd'
 import { useEffect, useState } from 'react'
 
 import getDinamicResource from '../../services/getDinamicResource'
 import getStaticResource from '../../services/getStaticResource'
-import HeaderMovie from '../header-movie/header-movie'
-import MovieContent from '../movie-content'
-import FooterMovie from '../footer-movie'
+import './app.css'
+// import SearchContent from '../search-content'
+import createNewGuest from '../../services/createNewGuest'
+// import RateContent from '../rate-content/rate-content'
+import getRateData from '../../services/getRateData'
+import Main from '../main'
 
-export default function App () {
 
-  const [movieData, setMovieData ] = useState([])
+
+export default function App() {
+  const [movieData, setMovieData] = useState([])
   const [serchMovie, setSerchMovie] = useState('')
-  // const [pagination, setPagination] = useState(1)
-  useEffect(()=>{
-    if(serchMovie.length<=0){
-      getStaticResource()
-        .then((result) => {
-          setMovieData( result )
-        })
-        .catch((error) => {
-          throw new Error('Error fetching data:', error.status)
-        })
-    }
-    else if(serchMovie.length>0){
-      getDinamicResource(serchMovie,1)
-        .then((result) => {
-          setMovieData( result )
-        })
-        .catch((error) => {
-          throw new Error('Error fetching data:', error.status)
-        })
-        
-    }
-  },[serchMovie]) 
+  const [pagination, setPagination] = useState(1)
+  const [totalPage, setTotalPage] = useState(null)
+  const [activeTabs, setActiveTabs] = useState(1)
+  const [guestSessionId, setGuestSessionId] = useState('')
+  const [rateData, setRateData] = useState([])
 
- 
-  const rateChange = (e, key) => {
-    setMovieData(prevMovieData => {
+
+  useEffect(() => {
+    if(guestSessionId.length<=0){
+      createNewGuest()
+        .then( res=> setGuestSessionId(res))
+    }
+    if (serchMovie.length <= 0) {
+      getStaticResource(pagination)
+        .then((result) => {
+          setMovieData(result.movieInfo)
+          setTotalPage(result.totalPage)
+        })
+        .catch((error) => {
+          throw new Error('Error fetching data:', error.status)
+        })
+    } else if (serchMovie.length > 0) {
+      getDinamicResource(serchMovie, pagination)
+        .then((result) => {
+          setMovieData(result.movieInfo)
+          setTotalPage(result.totalPage)
+        })
+        .catch((error) => {
+          throw new Error('Error fetching data:', error.status)
+        })
+    }
+  }, [serchMovie, pagination, guestSessionId ])
+
+  const rateChange = (e, key, gId) => {
+    console.log(e, key, gId)
+    fetch(`https://api.themoviedb.org/3/movie/${key}/rating?guest_session_id=${gId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json',
+        'accept': 'application/json',
+        'Authorization':'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmZjA5OWM2MjQyZTBmOWNmY2E2NjFhMzA1MTMyNjlmNSIsIm5iZiI6MTcyNDQ0MDAzOS4yNTI5NjMsInN1YiI6IjY2YzhkOTUyNTk2NmQ1Mzk1Zjg3NmFjOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gO7GNvaLh3Lw3SfzSGYfX-r3M-hWazuNozc-zg4ucQg', },
+      body: JSON.stringify({'value':e})     
+    }).then(res=>console.log(res))
+    setMovieData((prevMovieData) => {
       const idx = prevMovieData.findIndex((el) => el.key === key)
-      const newItem = { ...prevMovieData[idx], rate: e,  }
-      return [
-        ...prevMovieData.slice(0, idx),
-        newItem,
-        ...prevMovieData.slice(idx + 1)
-      ]
+      const newItem = { ...prevMovieData[idx], rate: e }
+      return [...prevMovieData.slice(0, idx), newItem, ...prevMovieData.slice(idx + 1)]
     })
-    
   }
-
-
 
   return (
     <Layout>
       <Flex justify="center">
-        <Layout style={{ 'max-width': '1010px', backgroundColor: 'white', padding:'0 36px' }}>
-            
-          <Flex vertical style={{ height: '100%' }}>
-            <HeaderMovie serchMovie={serchMovie} setSerchMovie={setSerchMovie}/>
-            <MovieContent rateChange={rateChange} movieData={movieData} />
-            <FooterMovie />
-          </Flex>
-        
+        <Layout className={`wrapper ${movieData.length <= 0 && 'wrapper--height'}`}>
+          <Tabs
+            size="large"
+            centered
+            destroyInactiveTabPane
+            type='line'
+            defaultActiveKey={activeTabs}
+            items={[
+              {
+                label: 'Search',
+                key: '1',
+                children:
+                (<Main
+                  search
+                  serchMovie={serchMovie}
+                  setSerchMovie={setSerchMovie}
+                  movieData={movieData}
+                  rateChange={rateChange}
+                  totalPage={totalPage}
+                  setPagination={setPagination}
+                  pagination={pagination}
+                  guestSessionId={guestSessionId}
+                />)
+              },
+              {
+                label: 'Rated',
+                key: '2',
+                children:
+               ( <Main 
+                 movieData={rateData}
+                 rateChange={rateChange}
+                 setPagination={setPagination}
+                 pagination={pagination}
+                 totalPage={totalPage}
+                 guestSessionId={guestSessionId}/>)
+              },
+            ]}
+            onChange={(e) => {
+              setActiveTabs(e)
+              if(e === '2'){
+                setPagination(1)
+                getRateData(guestSessionId, pagination)
+                  .then(res=>{setRateData(res.movieInfo)
+                    setTotalPage(res.totalPage)})
+              }
+            }}/> 
         </Layout>
       </Flex>
     </Layout>
   )
-  
 }

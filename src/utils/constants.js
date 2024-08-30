@@ -25,8 +25,8 @@ const Genre = {
   10765: 'Sci-Fi & Fantasy',
   10766: 'Soap',
   10767: 'Talk',
-  10768: 'War & Politics'
+  10768: 'War & Politics',
 }
 const StarsName = ['terrible', 'terrible', 'bad', 'bad', 'normal', 'normal', 'good', 'good', 'wonderful', 'wonderful']
 
-export  {Genre , StarsName}
+export { Genre, StarsName }

@@ -1,5 +1,5 @@
-const getStaticResource = async () => {
-  const res = await fetch('https://api.themoviedb.org/3/trending/movie/day?language=en-US', {
+const getStaticResource = async (pagination) => {
+  const res = await fetch(`https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=${pagination}`, {
     method: 'GET',
     headers: {
       accept: 'application/json',
@@ -11,6 +11,7 @@ const getStaticResource = async () => {
     throw new Error(`что то не то лооол ${res.status}`)
   }
   const body = await res.json()
+  const totalPage = body.total_pages
   const movieInfo = body.results.map((item) => ({
     title: item.title,
     genreIds: item.genre_ids,
@@ -19,8 +20,8 @@ const getStaticResource = async () => {
     voteAverage: item.vote_average,
     releaseDate: item.release_date,
     key: item.id,
-    rate:0
+    rate: 0,
   }))
-  return movieInfo
+  return { movieInfo, totalPage }
 }
 export default getStaticResource
