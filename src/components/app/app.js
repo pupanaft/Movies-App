@@ -104,7 +104,7 @@ export default function App() {
     <GenresProvider value={genres}>
       <Layout>
         <Flex justify="center">
-          <Layout className={`wrapper ${movieData.length <= 0 && 'wrapper--height'}`}>
+          <Layout className="wrapper wrapper--height">
             <ConfigProvider
               theme={{
                 components: {
