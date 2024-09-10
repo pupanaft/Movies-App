@@ -1,3 +1,5 @@
+import { format } from 'date-fns'
+
 const getStaticResource = async (pagination) => {
   const res = await fetch(`https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=${pagination}`, {
     method: 'GET',
@@ -8,17 +10,18 @@ const getStaticResource = async (pagination) => {
     },
   })
   if (!res.ok) {
-    throw new Error(`что то не то лооол ${res.status}`)
+    throw new Error(`An error occurred while getting the list of movies ${res.status}`)
   }
   const body = await res.json()
-  const totalPage = body.total_pages
+
+  const totalPage = body.total_results
   const movieInfo = body.results.map((item) => ({
     title: item.title,
     genreIds: item.genre_ids,
     posterPath: item.poster_path,
     overview: item.overview,
     voteAverage: item.vote_average,
-    releaseDate: item.release_date,
+    releaseDate: item.release_date ? format(item.release_date, 'PP') : 'No date',
     key: item.id,
     rate: 0,
   }))

@@ -1,22 +1,30 @@
 import { Header } from 'antd/es/layout/layout'
-import { ConfigProvider } from 'antd'
+import { ConfigProvider, Input } from 'antd'
+import { useRef } from 'react'
+import { debounce } from 'lodash'
+import './header-movie.css'
 
-import HeaderSearch from '../header-search/header-search'
+export default function HeaderMovie({ setSerchMovie }) {
+  const intervalRef = useRef('')
 
-export default function HeaderMovie({ serchMovie, setSerchMovie }) {
   return (
     <ConfigProvider
       theme={{
         components: {
           Layout: {
             headerBg: '#ffffff',
-            headerPadding: '0 0',
           },
         },
       }}
     >
-      <Header>
-        <HeaderSearch serchMovie={serchMovie} setSerchMovie={setSerchMovie} />
+      <Header className="header">
+        <Input
+          ref={intervalRef}
+          onChange={debounce(() => {
+            setSerchMovie(intervalRef.current.input.value)
+          }, 600)}
+          placeholder="Type to search..."
+        />
       </Header>
     </ConfigProvider>
   )

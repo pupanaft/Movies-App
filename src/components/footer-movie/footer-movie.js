@@ -1,10 +1,10 @@
 import { ConfigProvider, Pagination } from 'antd'
 import { Footer } from 'antd/es/layout/layout'
 
-export default function FooterMovie({ totalPage, setPagination, pagination }) {
+export default function FooterMovie({ empty, totalPage, setPagination, pagination }) {
   let total
-  if (totalPage >= 500) {
-    total = 500
+  if (totalPage >= 10000) {
+    total = 10000
   } else {
     total = totalPage
   }
@@ -18,15 +18,17 @@ export default function FooterMovie({ totalPage, setPagination, pagination }) {
         },
       }}
     >
-      <Footer style={{ 'margin-top': 'auto' }}>
-        <Pagination
-          align="center"
-          onChange={(e) => setPagination(e)}
-          showSizeChanger={false}
-          defaultCurrent={pagination}
-          defaultPageSize={20}
-          total={total * 20}
-        />
+      <Footer style={{ marginTop: 'auto' }}>
+        {!empty ? (
+          <Pagination
+            align="center"
+            onChange={(e) => setPagination(e)}
+            showSizeChanger={false}
+            defaultCurrent={pagination}
+            defaultPageSize={20}
+            total={total}
+          />
+        ) : null}
       </Footer>
     </ConfigProvider>
   )

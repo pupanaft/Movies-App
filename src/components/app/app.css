@@ -1,7 +1,21 @@
+html {
+    min-height: auto;
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+.body {
+    margin: 0
+}
+
 .wrapper {
     max-width: 1010px;
     background-Color: white;
-    padding: 0 36px;
 }
 
 .wrapper--height {

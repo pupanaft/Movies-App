@@ -1,0 +1,16 @@
+.header {
+    padding: 0 16px;
+}
+
+
+@media (min-width:575px) {
+    .header {
+        padding: 0 36px;
+    }
+}
+
+@media (min-width:1002px) {
+    .header {
+        margin-bottom: 20px;
+    }
+}
