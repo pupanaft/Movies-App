@@ -4,7 +4,7 @@ import { useRef } from 'react'
 import { debounce } from 'lodash'
 import './header-movie.css'
 
-export default function HeaderMovie({ setSerchMovie }) {
+export default function HeaderMovie({ serchMovie, setSerchMovie }) {
   const intervalRef = useRef('')
 
   return (
@@ -24,6 +24,7 @@ export default function HeaderMovie({ setSerchMovie }) {
             setSerchMovie(intervalRef.current.input.value)
           }, 600)}
           placeholder="Type to search..."
+          defaultValue={serchMovie}
         />
       </Header>
     </ConfigProvider>

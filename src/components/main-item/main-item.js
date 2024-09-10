@@ -3,7 +3,7 @@ import Layout from 'antd/es/layout/layout'
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
 
 import './main-item.css'
-import { StarsName } from '../../utils/constants'
+import StarsName from '../../utils/constants'
 
 import qImage from './fallback.png'
 

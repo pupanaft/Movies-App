@@ -10,6 +10,7 @@ import HeaderMovie from '../header-movie/header-movie'
 import './main.css'
 
 export default function Main({
+  serchMovie,
   rateChange,
   guestSessionId,
   search,
@@ -35,7 +36,7 @@ export default function Main({
   const screens = useBreakpoint()
   return (
     <Flex vertical style={{ height: '100%' }}>
-      {search && <HeaderMovie setSerchMovie={setSerchMovie} />}
+      {search && <HeaderMovie serchMovie={serchMovie} setSerchMovie={setSerchMovie} />}
       {movieData.length <= 0 ? (
         <Flex justify="center" align="center" style={{ height: '100vh' }}>
           <Spin size="large" />

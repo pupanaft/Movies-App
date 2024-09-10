@@ -126,6 +126,7 @@ export default function App() {
                     key: '1',
                     children: (
                       <Main
+                        serchMovie={serchMovie}
                         search
                         rateChange={rateChange}
                         guestSessionId={guestSessionId}
