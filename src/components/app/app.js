@@ -1,4 +1,4 @@
-import { Alert, ConfigProvider, Empty, Flex, Layout, Tabs } from 'antd'
+import { ConfigProvider, Empty, Flex, Layout, Tabs } from 'antd'
 import { useEffect, useState } from 'react'
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
 
@@ -12,6 +12,7 @@ import getRateData from '../../services/getRateData'
 import Main from '../main'
 import getGenres from '../../services/getGenres'
 import { GenresProvider } from '../../services/genresContext'
+import ErrorInternet from '../error-internet'
 
 export default function App() {
   const [movieData, setMovieData] = useState([])
@@ -55,16 +56,8 @@ export default function App() {
           setGuestSessionId(res)
         })
         .catch((err) => {
-          if (err.message === 'There is no internet connection') {
-            setMovieData(
-              <div className="wrapper wrapper--height">
-                <Alert
-                  message={`${err.message}`}
-                  description="Error Description Error Description Error Description Error Description"
-                  type="error"
-                />
-              </div>
-            )
+          if (err.message === 'Connection Error') {
+            setMovieData(<ErrorInternet />)
           }
         })
     }
@@ -91,14 +84,20 @@ export default function App() {
     }
 
     if (activeTabs === '2') {
-      getRateData(guestSessionId, pagination).then((res) => {
-        if (res.movieInfo.length > 0) {
-          setRateData(res.movieInfo)
-          setTotalPage(res.totalPage)
-        } else {
-          setRateData(<Empty key="empty" />)
-        }
-      })
+      getRateData(guestSessionId, pagination)
+        .then((res) => {
+          if (res.movieInfo.length > 0) {
+            setRateData(res.movieInfo)
+            setTotalPage(res.totalPage)
+          } else {
+            setRateData(<Empty key="empty" />)
+          }
+        })
+        .catch((err) => {
+          if (err.message === 'Connection Error') {
+            setRateData(<ErrorInternet />)
+          }
+        })
     }
   }, [serchMovie, pagination, guestSessionId, activeTabs, genres])
   return (

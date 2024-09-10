@@ -13,7 +13,7 @@ const getRateData = async (gId, page) => {
     }
   ).catch((err) => {
     if (err.message === 'Failed to fetch') {
-      throw new Error('no internet')
+      throw new Error('Connection Error')
     }
   })
   if (!res.ok) {

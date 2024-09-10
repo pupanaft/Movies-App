@@ -8,7 +8,7 @@ const createNewGuest = async () => {
     },
   }).catch((err) => {
     if (err.message === 'Failed to fetch') {
-      throw new Error('There is no internet connection')
+      throw new Error('Connection Error')
     }
   })
   const body = await res.json()
